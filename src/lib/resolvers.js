@@ -1,4 +1,5 @@
 "use strict";
+const generateUniqueId = require("generate-unique-id");
 
 const courses = [
   {
@@ -17,9 +18,33 @@ const courses = [
   },
 ];
 
+const students = [
+  { _id: 1, name: "Efren Martinez", email: "efren@platzi.com" },
+  { _id: 2, name: "yo lan da", email: "yo@platzi.com" },
+];
+
 module.exports = {
   Query: {
     getCourses: () => courses,
     getCourse: (root, args) => courses.find((course) => course._id == args._id),
+    getStudents: () => students,
+    getStudent: (root, args) =>
+      students.find((student) => student._id == args._id),
+  },
+  Mutation: {
+    createCourse: (root, { input }) => {
+      const newCourse = {
+        ...input,
+        _id: generateUniqueId({ length: 10 }),
+      };
+      return newCourse;
+    },
+    createStudent: (root, { input }) => {
+      const newStudent = {
+        ...input,
+        _id: generateUniqueId({ length: 10 }),
+      };
+      return newStudent;
+    },
   },
 };
