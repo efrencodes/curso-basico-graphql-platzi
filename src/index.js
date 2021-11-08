@@ -1,22 +1,19 @@
-"use strict";
+'use strict'
 
-const { makeExecutableSchema } = require("graphql-tools");
-const express = require("express");
-const gqlMiddleware = require("express-graphql");
-const { readFileSync } = require("fs");
-const { join } = require("path");
-const resolvers = require("./lib/resolvers");
+const { makeExecutableSchema } = require('graphql-tools')
+const express = require('express')
+const gqlMiddleware = require('express-graphql')
+const { readFileSync } = require('fs')
+const { join } = require('path')
+const resolvers = require('./lib/resolvers')
 
-const app = express();
-const port = process.env.port || 3000;
+const app = express()
+const port = process.env.port || 3000
 
 //Definiendo el schema
-const typeDefs = readFileSync(
-  join(__dirname, "lib", "schema.graphql"),
-  "utf-8"
-);
+const typeDefs = readFileSync(join(__dirname, 'lib', 'schema.graphql'), 'utf-8')
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = makeExecutableSchema({ typeDefs, resolvers })
 
 // Ejecutar el query
 // Le pasamos el schema como primer parametro
@@ -29,14 +26,14 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 //   .catch((e) => console.error(e));
 
 app.use(
-  "/api",
-  gqlMiddleware({
-    schema,
-    rootValue: resolvers,
-    graphiql: true,
-  })
-);
+	'/api',
+	gqlMiddleware({
+		schema,
+		rootValue: resolvers,
+		graphiql: true
+	})
+)
 
 app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}/api/v1/`);
-});
+	console.log(`Server is listening at http://localhost:${port}/api/v1/`)
+})
